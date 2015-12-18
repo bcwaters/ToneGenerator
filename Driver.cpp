@@ -16,10 +16,30 @@ int main(int argc, const char* argv[])
 	//printf("%i", testChunk->getTestInfo());
 	std::cin >> pause;
 
-	makerTone.makeTone(pause, 0, 5);
+	//makerTone.makeTone(pause, 0, 1);
+	//makerTone.makeTone(pause, 0, 1);
+
+	for (int i = 0; i < 12; i++)
+	{
+		printf("ToneAdded:  %i\n", pause-(i*30));
+		makerTone.makeTone(pause - (i*30), 2*i, 2);
+		if (pause>200 && i % 3 == 0)
+		{
+			makerTone.makeTone(pause , 2 * i, 4);
+		}
+	}
+
+	/*makerTone.makeTone(pause, 3, 30);
+	makerTone.makeTone(pause, 9, 3);
+	makerTone.makeTone(pause, 14, 3);
+	makerTone.makeTone(pause - 100, 7, 9);
+	makerTone.makeTone(pause - 100, 16, 3);
+	*/
+	//makerTone.makeTone(200, 0, 7);
+
 	makerTone.AddToneDataToWav(testWav);
 	testWriter.writeWav(testWav);
-
+	std::cin >> pause;
 }
 
 
