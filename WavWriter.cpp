@@ -6,7 +6,7 @@
 void WavWriter::writeWav(Wav * wavToWrite)
 {
 	
-	testFile.open("test.wav", std::ios::binary);
+	testFile.open("test2.wav", std::ios::binary);
 	writeInt(wavToWrite->getRiffId());
 	writeInt(wavToWrite->getChunkSize());
 	writeInt(wavToWrite->getRiffFormat());
@@ -21,7 +21,7 @@ void WavWriter::writeWav(Wav * wavToWrite)
 	writeInt(wavToWrite->getDataId());
 	writeInt(wavToWrite->getDataSize());
 	
-	for (int i = 0; i < 1000000; i++)
+	for (int i = 0; i < wavToWrite->getDataSize(); i++)
 	{
 		writeShort(wavToWrite->getDataBlock(i));
 	}
