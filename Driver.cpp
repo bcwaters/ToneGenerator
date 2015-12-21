@@ -15,10 +15,11 @@ int main(int argc, const char* argv[])
 	FormatChunk *testChunk = new FormatChunk(1);
 	//printf("%i", testChunk->getTestInfo());
 	std::cin >> pause;
+	printf("\n byteRate: %i\n", testWav->getByteRate());
 
 	//makerTone.makeTone(pause, 0, 1);
 	//makerTone.makeTone(pause, 0, 1);
-
+	makerTone.makeTone(pause, 0, 20);
 	for (int i = 0; i < 12; i++)
 	{
 		printf("ToneAdded:  %i\n", pause-(i*30));
