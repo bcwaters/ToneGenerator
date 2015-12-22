@@ -18,7 +18,7 @@ public:
 
 private:
 	short* generateToneData(unsigned int _byteRate);
-	void updateEncodingLength(Tone toneRecieved, unsigned int wavDataSize);
+	void updateEncodingLength(Tone* toneRecieved, unsigned int _byteRate);
 };
 
 #endif

@@ -8,7 +8,7 @@ DataChunk::DataChunk()
 	//THIS NEEDS TO BE REFACTORED!
 	//These data blocks vary in length depending on the format of the wave file.
 
-	dataBlocks;
+
 
 }
 

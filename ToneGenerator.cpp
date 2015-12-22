@@ -3,14 +3,16 @@
 void ToneGenerator::AddToneDataToWav(Wav* targetWav)
 {
 	targetWav->setDataBlock(generateToneData(targetWav->getByteRate()));
-	targetWav->setDataSize(1000000);
+	targetWav->setDataSize(encodingLength + targetWav->getByteRate());
 }
 
 //This function is used to keep track of how long the wav file is going ot be 
 //for encoding.  For now the 
-void ToneGenerator::updateEncodingLength(Tone toneRecieved, unsigned int wavDataSize)
+void ToneGenerator::updateEncodingLength(Tone* toneRecieved, unsigned int _byteRate)
 {
-	//NumSamples * NumChannels * BitsPerSample/8
+	int toneLength = ((toneRecieved->startTime) * (_byteRate )) + ((toneRecieved->duration) * _byteRate );
+		if (toneLength > encodingLength)
+			encodingLength = toneLength;
 }
 
 void ToneGenerator::makeTone(int frequency, int startTime, short duration)
@@ -18,6 +20,7 @@ void ToneGenerator::makeTone(int frequency, int startTime, short duration)
 	Tone *newTone = new Tone(frequency, startTime, duration);
 	toneList.push_front (*newTone);
 	++listSize;
+	
 }
 
 void ToneGenerator::clearToneGenerator()
@@ -30,8 +33,15 @@ void ToneGenerator::clearToneGenerator()
 //This function converts each Tone in the tone list to bytes which can be read in a wav File
 //All tones are added together and then the amplitude is scaled back down
 short* ToneGenerator::generateToneData(unsigned int _byteRate){
-	short* newArr = new short[1000000]();
-	short* waveCount = new short[1000000]();
+
+	for (auto it = toneList.begin(); it != toneList.end(); ++it)
+	{
+		Tone *tone = &*it;
+		updateEncodingLength(tone, _byteRate);
+	}
+
+	short* newArr = new short[encodingLength+_byteRate]();
+	short* waveCount = new short[encodingLength + _byteRate]();
 	
 	int amplitude = 5000;
 	int bytesPerPeriod = 0;				//	byteRate/frequency finds how many bytes each period takes
@@ -43,28 +53,27 @@ short* ToneGenerator::generateToneData(unsigned int _byteRate){
 		
 		bytesPerPeriod = _byteRate / (it->frequency);
 		bytesPerPeriod = bytesPerPeriod/2;				//This is to take into account the fact that there is 2 channels
-		periodRepeatValue = (it->duration)*(10000);
-		periodRepeatValue = periodRepeatValue / 2;
-		tonePosition = (it->startTime * 10000);
+		periodRepeatValue = (it->duration)*(_byteRate)/2;
+		tonePosition = (it->startTime) * (_byteRate)/2;
 		
 
 		//This entire thing can be encapsulated in a squareWave method.
 		bool atTop = true;
-		if (tonePosition<1000000)
-		for (int j = tonePosition; j < tonePosition+periodRepeatValue; j=j+2)
+		if (tonePosition<encodingLength)
+		for (int j = tonePosition; j < tonePosition+periodRepeatValue  && j<encodingLength; j=j+2)
 		{			
 			if (atTop)
 			{
-				//newArr[j] += amplitude;
+				newArr[j] += amplitude;
 				newArr[j + 1] += amplitude;
-				//waveCount[j] = waveCount[j]+1;
+				waveCount[j] = waveCount[j]+1;
 				waveCount[j + 1] = waveCount[j];
 			}
 			else
 			{
-				//newArr[j] += -amplitude;
+				newArr[j] += -amplitude;
 				newArr[j + 1] += -amplitude;
-				//waveCount[j] = waveCount[j] + 1;
+				waveCount[j] = waveCount[j] + 1;
 				waveCount[j + 1] = waveCount[j];
 			}
 
@@ -77,7 +86,7 @@ short* ToneGenerator::generateToneData(unsigned int _byteRate){
 	}
 	// end square wave method
 	
-	for (int i = 0; i < 1000000; i++)
+	for (int i = 0; i < encodingLength; i++)
 	{
 		if (waveCount[i]!=0)
 		newArr[i] = newArr[i] / waveCount[i];

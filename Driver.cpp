@@ -19,14 +19,14 @@ int main(int argc, const char* argv[])
 
 	//makerTone.makeTone(pause, 0, 1);
 	//makerTone.makeTone(pause, 0, 1);
-	makerTone.makeTone(pause, 0, 20);
-	for (int i = 0; i < 12; i++)
+	
+	for (int i = 0; i < 20; i++)
 	{
 		printf("ToneAdded:  %i\n", pause-(i*30));
-		makerTone.makeTone(pause - (i*30), 2*i, 2);
+		makerTone.makeTone(pause - (i*30), i, 1);
 		if (pause>200 && i % 3 == 0)
 		{
-			makerTone.makeTone(pause , 2 * i, 4);
+			makerTone.makeTone(pause , i, 2);
 		}
 	}
 
