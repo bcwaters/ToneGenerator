@@ -15,6 +15,7 @@ struct FormatChunk
 	unsigned short bitsPerSample;
 
 public:
+	FormatChunk();
 	FormatChunk(short formatType);
 	unsigned short getTestInfo();
 	

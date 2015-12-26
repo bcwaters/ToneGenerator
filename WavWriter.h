@@ -7,10 +7,12 @@
 class WavWriter
 {
 	std::ofstream testFile;
+
 public:
 	void writeInt(unsigned int input);
 	void writeShort(short input);
-	void writeWav(Wav * waveToWrite);
+	void writeUnsignedChar(unsigned char  input);
+	void writeWav(Wav * waveToWrite, int tempCode);
 };
 
 #endif

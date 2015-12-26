@@ -3,7 +3,7 @@
 void ToneGenerator::AddToneDataToWav(Wav* targetWav)
 {
 	targetWav->setDataBlock(generateToneData(targetWav->getByteRate()));
-	targetWav->setDataSize(encodingLength + targetWav->getByteRate());
+	targetWav->setDataSize(encodingLength/2 + targetWav->getByteRate());
 }
 
 //This function is used to keep track of how long the wav file is going ot be 
@@ -20,7 +20,6 @@ void ToneGenerator::makeTone(int frequency, int startTime, short duration)
 	Tone *newTone = new Tone(frequency, startTime, duration);
 	toneList.push_front (*newTone);
 	++listSize;
-	
 }
 
 void ToneGenerator::clearToneGenerator()
@@ -28,7 +27,6 @@ void ToneGenerator::clearToneGenerator()
 	listSize = 0;
 	toneList.clear();
 }
-
 
 //This function converts each Tone in the tone list to bytes which can be read in a wav File
 //All tones are added together and then the amplitude is scaled back down
@@ -52,11 +50,10 @@ short* ToneGenerator::generateToneData(unsigned int _byteRate){
 	{
 		
 		bytesPerPeriod = _byteRate / (it->frequency);
-		bytesPerPeriod = bytesPerPeriod/2;				//This is to take into account the fact that there is 2 channels
+		bytesPerPeriod = bytesPerPeriod/2;				//This is to take into account the fact that there are 2 channels
 		periodRepeatValue = (it->duration)*(_byteRate)/2;
 		tonePosition = (it->startTime) * (_byteRate)/2;
 		
-
 		//This entire thing can be encapsulated in a squareWave method.
 		bool atTop = true;
 		if (tonePosition<encodingLength)

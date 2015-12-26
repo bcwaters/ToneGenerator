@@ -3,10 +3,10 @@
 
 
 
-void WavWriter::writeWav(Wav * wavToWrite)
+void WavWriter::writeWav(Wav * wavToWrite, int tempCode)
 {
 	
-	testFile.open("test2.wav", std::ios::binary);
+	testFile.open("testRead.wav", std::ios::binary);
 	writeInt(wavToWrite->getRiffId());
 	writeInt(wavToWrite->getChunkSize());
 	writeInt(wavToWrite->getRiffFormat());
@@ -21,9 +21,19 @@ void WavWriter::writeWav(Wav * wavToWrite)
 	writeInt(wavToWrite->getDataId());
 	writeInt(wavToWrite->getDataSize());
 	
-	for (int i = 0; i < wavToWrite->getDataSize(); i++)
+	if (tempCode == 0)
 	{
-		writeShort(wavToWrite->getDataBlock(i));
+		for (int i = 0; i < wavToWrite->getDataSize(); i++)
+		{
+				writeUnsignedChar(wavToWrite->getReadDataBlock(i));
+		}
+	}
+	else
+	{
+		for (int i = 0; i < wavToWrite->getDataSize(); i++)
+		{
+			writeShort(wavToWrite->getDataBlock(i));
+		}
 	}
 	
 
@@ -39,4 +49,9 @@ void WavWriter::writeInt(unsigned int  input)
 void WavWriter::writeShort(short  input)
 {
 	testFile.write(reinterpret_cast<const char *>(&input), sizeof(short));
+}
+
+void WavWriter::writeUnsignedChar(unsigned char  input)
+{
+	testFile.write(reinterpret_cast<const char *>(&input), sizeof(unsigned char));
 }

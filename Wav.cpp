@@ -6,25 +6,28 @@ Wav::Wav()
 	//it turns out that windows media player does not even use the chunksize. The length of the 
 	//audio file is determined by the dataChunk's size parameter.
 
-	riffId = 0x46464952;			//52494646		//RIFF
-	chunkSize = 1000036;//1000036;				//FILE SIZE total = all - (riffType + fileSize)   !8 bytes 
-	riffFormat = 0x45564157;			//WAVE
-
+	
+	riff = new RiffChunk();
 	fmt = new FormatChunk(FormatChunk::_STANDARD);
 	data = new DataChunk();
+}
+Wav::Wav(RiffChunk* _riff, FormatChunk* _fmt, DataChunk* _data) {
+	riff = _riff;
+	fmt = _fmt;
+	data = _data;
 }
 //MAIN RIFF CHUNK
 unsigned int Wav::getRiffId()
 {
-	return riffId;
+	return riff->riffId;
 }
 unsigned int Wav::getChunkSize()
 {
-	return chunkSize;
+	return riff->chunkSize;
 }
 unsigned int Wav::getRiffFormat()
 {
-	return riffFormat;
+	return riff->riffFormat;
 }
 //FMT CHUNK
 unsigned int Wav::getFmt()
@@ -71,6 +74,11 @@ unsigned int Wav::getDataSize()
 short Wav::getDataBlock(int index)
 {
 	return data->dataBlocks[index];
+}
+
+unsigned char Wav::getReadDataBlock(int index)
+{
+	return data->readDataBlocks[index];
 }
 void Wav::setDataSize(unsigned int newSize)
 {

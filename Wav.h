@@ -2,19 +2,19 @@
 #define WAV_H
 #include "FormatChunk.h"
 #include "DataChunk.h"
+#include "RiffChunk.h"
 
 class Wav
 {
-	unsigned int riffId;			//"RIFF"
-	unsigned int chunkSize;			//fileLength - 8
-	unsigned int riffFormat;		//"WAVE"
-
+	
+	RiffChunk* riff;
 	FormatChunk* fmt;
 	DataChunk* data;
 
 public:
 	Wav();
 	~Wav();
+	Wav(RiffChunk* _riff, FormatChunk* _fmt, DataChunk* _data);
 	//MAIN RIFF CHUNK
 	unsigned int getRiffId();
 	unsigned int getChunkSize();
@@ -33,6 +33,7 @@ public:
 	unsigned int getDataSize();
 	void setDataSize(unsigned int newSize);
 	short getDataBlock(int index);
+	unsigned char getReadDataBlock(int index);
 	void setDataBlock(short* newData);
 };
 #endif
