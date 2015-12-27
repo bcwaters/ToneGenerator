@@ -2,6 +2,8 @@
 #define DATACHUNK_H
 #include < array > 
 
+
+
 struct DataChunk
 {
 	unsigned int dataId;
@@ -9,12 +11,28 @@ struct DataChunk
 
 	//THIS NEEDS TO BE REFACTORED!
 	//These data blocks vary in length depending on the format of the wave file.
-	short* dataBlocks = new short[1];
 	unsigned char* readDataBlocks;
+	DataWrapper* data;
 
 public:
+	void setData(int size, int type);
 	DataChunk();
 	~DataChunk();
+};
+
+struct DataWrapper{
+public:
+	virtual DataWrapper* getData(int index);
+};
+
+template<class T>
+struct DataBlocks:DataWrapper{
+	T* data;
+
+public:
+	DataBlocks(int size){ data = new T[size]; };
+	~DataBlocks(){ delete [] data; };
+	getData(int index){ return data[index]; };
 };
 
 #endif

@@ -28,6 +28,7 @@ void ToneGenerator::clearToneGenerator()
 	toneList.clear();
 }
 
+
 //This function converts each Tone in the tone list to bytes which can be read in a wav File
 //All tones are added together and then the amplitude is scaled back down
 short* ToneGenerator::generateToneData(unsigned int _byteRate){

@@ -1,4 +1,5 @@
 #include "DataChunk.h"
+#include "GlobalCodes.cpp"
 
 DataChunk::DataChunk()
 {
@@ -12,5 +13,22 @@ DataChunk::DataChunk()
 
 DataChunk::~DataChunk()
 {
-	delete [] dataBlocks;
+	delete data;
 }
+
+void DataChunk::setData(int size, int type)
+{
+	if (type == GlobalCodes::charCode)
+	{
+		data = new DataBlocks<unsigned char>(size);
+	}
+	else if (type == type == GlobalCodes::shortCode)
+	{
+		data = new DataBlocks<short>(size);
+	}
+	else
+	{
+		data = new DataBlocks<unsigned int>(size);
+	}
+}
+

@@ -41,6 +41,8 @@ void WavWriter::writeWav(Wav * wavToWrite, int tempCode)
 
 }
 
+
+
 void WavWriter::writeInt(unsigned int  input)
 {	
 	testFile.write(reinterpret_cast<const char *>(&input), sizeof(unsigned int));
