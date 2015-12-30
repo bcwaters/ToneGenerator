@@ -8,7 +8,7 @@ DataChunk::DataChunk()
 
 	//THIS NEEDS TO BE REFACTORED!
 	//These data blocks vary in length depending on the format of the wave file.
-
+	
 }
 
 DataChunk::~DataChunk()
@@ -16,19 +16,37 @@ DataChunk::~DataChunk()
 	delete data;
 }
 
-void DataChunk::setData(int size, int type)
+void DataChunk::setDataType(int size, int type)
 {
 	if (type == GlobalCodes::charCode)
 	{
+		
 		data = new DataBlocks<unsigned char>(size);
+		data->type = type;
 	}
 	else if (type == type == GlobalCodes::shortCode)
 	{
 		data = new DataBlocks<short>(size);
+		data->type = type;
 	}
 	else
 	{
 		data = new DataBlocks<unsigned int>(size);
+		data->type = type;
 	}
 }
 
+void * DataChunk::getData(int index)
+{
+	return data->getData(index);
+}
+
+int DataChunk::getDataType()
+{
+	return data->getDataType();
+}
+
+void DataChunk::setDataArray(void * _data)
+{
+	data->setData(_data);
+}

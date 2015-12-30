@@ -11,12 +11,15 @@ int main(int argc, const char* argv[])
 
 	WavWriter testWriter;
 	ToneGenerator makerTone;
+	int x = 7;
+	void * test = (void *)x;
+	x = (reinterpret_cast<int >(test));
 	
-
+	printf("%x \n", x);
 	
 	int pause;
 	WavLoader testLoad;
-	testWav = testLoad.loadWav("WilhelmScream.wav");
+	testWav = testLoad.loadWav("test2.wav");
 	unsigned char * tempStor = reinterpret_cast<unsigned char*>(testLoad.getBits());
 	
 	for (int i = 0; i < 20; i++)
@@ -24,7 +27,7 @@ int main(int argc, const char* argv[])
 		printf("%x ", tempStor[i]);
 	}
 	
-	printf("\n%u", testLoad.getTestInfo());
+	printf("\n%u", testWav->getDataSize());
 	testWriter.writeWav(testWav, 0);
 
 	/*printf("Hello enter a frequency to create:\n");

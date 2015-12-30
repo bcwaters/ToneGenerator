@@ -1,4 +1,5 @@
 #include "WavLoader.h"
+#include "GlobalCodes.cpp"
 
 Wav* WavLoader::loadWav(char* fileName)
 {
@@ -88,12 +89,26 @@ void WavLoader::loadDataChunk() {
 		data = new DataChunk();
 		data->dataId = 0x61746164;
 		data->dataSize = convertedHeaderData[40] + (convertedHeaderData[41] << 8) + (convertedHeaderData[42] << 16) + (convertedHeaderData[43] << 24);
-		data->readDataBlocks = new unsigned char[data->dataSize];
-		for (int i = 0; i < data->dataSize; i++)
+		if (fmt->bitsPerSample<=8)
 		{
-			data->readDataBlocks[i] = convertedHeaderData[44 + i];
+			data->setDataType( size, GlobalCodes::charCode);
+		}
+		else
+		{
+			//this is on purpose for now
+			//data->setDataType( size, GlobalCodes::shortCode);
+			data->setDataType(size, GlobalCodes::charCode);
 		}
 
+
+		unsigned char* readDataBlocks = new unsigned char[data->dataSize];
+
+		for (int i = 0; i < data->dataSize; i++)
+		{
+			readDataBlocks[i] = convertedHeaderData[44 + i];
+		}
+
+		data->setDataArray(readDataBlocks);
 	}
 }
 

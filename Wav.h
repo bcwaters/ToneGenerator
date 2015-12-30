@@ -31,9 +31,9 @@ public:
 	//DATA CHUNK
 	unsigned int getDataId();
 	unsigned int getDataSize();
+	int getDataType();
 	void setDataSize(unsigned int newSize);
 	void * getDataBlock(int index);
-	unsigned char getReadDataBlock(int index);
 	void setDataBlock(short* newData);
 };
 #endif

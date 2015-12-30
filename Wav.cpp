@@ -73,12 +73,12 @@ unsigned int Wav::getDataSize()
 }
 void * Wav::getDataBlock(int index)
 {
-	return data->data->getData(index);
+	return data->getData(index);
 }
 
-unsigned char Wav::getReadDataBlock(int index)
+int Wav::getDataType()
 {
-	return data->readDataBlocks[index];
+	return data->getDataType();
 }
 void Wav::setDataSize(unsigned int newSize)
 {
@@ -87,5 +87,5 @@ void Wav::setDataSize(unsigned int newSize)
 void Wav::setDataBlock(short* newData)
 {
 	delete data->data;
-	data->data->data = newData;
+	data->setDataArray(newData);
 }
