@@ -9,8 +9,8 @@ struct DataChunk
 
 	//THIS NEEDS TO BE REFACTORED!
 	//These data blocks vary in length depending on the format of the wave file.
-	short* dataBlocks = new short[1];
-	unsigned char* readDataBlocks;
+	unsigned char* dataBlocks = new unsigned char[1];
+	
 
 public:
 	DataChunk();

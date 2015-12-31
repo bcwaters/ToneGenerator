@@ -21,20 +21,12 @@ void WavWriter::writeWav(Wav * wavToWrite, int tempCode)
 	writeInt(wavToWrite->getDataId());
 	writeInt(wavToWrite->getDataSize());
 	
-	if (tempCode == 0)
-	{
+	
 		for (int i = 0; i < wavToWrite->getDataSize(); i++)
 		{
-				writeUnsignedChar(wavToWrite->getReadDataBlock(i));
+			writeUnsignedChar(wavToWrite->getDataBlock(i));
 		}
-	}
-	else
-	{
-		for (int i = 0; i < wavToWrite->getDataSize(); i++)
-		{
-			writeShort(wavToWrite->getDataBlock(i));
-		}
-	}
+	
 	
 
 	testFile.close();

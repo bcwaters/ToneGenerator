@@ -23,9 +23,6 @@ private:
 	void loadFmtChunk();
 	void loadDataChunk();
 
-	
-
-
 };
 
 #endif

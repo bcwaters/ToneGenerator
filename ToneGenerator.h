@@ -17,7 +17,7 @@ public:
 	void clearToneGenerator();
 
 private:
-	short* generateToneData(unsigned int _byteRate);
+	unsigned char* generateToneData(unsigned int _byteRate, int dataType);
 	void updateEncodingLength(Tone* toneRecieved, unsigned int _byteRate);
 };
 

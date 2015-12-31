@@ -77,10 +77,7 @@ void WavLoader::loadFmtChunk() {
 	else
 	{
 		fmt = nullptr;
-		
-	}
-
-	
+	}	
 }
 void WavLoader::loadDataChunk() {
 	if (convertedHeaderData[36] + convertedHeaderData[37] + convertedHeaderData[38] + convertedHeaderData[39] == 'd' + 'a' + 't' + 'a')
@@ -88,16 +85,14 @@ void WavLoader::loadDataChunk() {
 		data = new DataChunk();
 		data->dataId = 0x61746164;
 		data->dataSize = convertedHeaderData[40] + (convertedHeaderData[41] << 8) + (convertedHeaderData[42] << 16) + (convertedHeaderData[43] << 24);
-		data->readDataBlocks = new unsigned char[data->dataSize];
+		data->dataBlocks = new unsigned char[data->dataSize];
 		for (int i = 0; i < data->dataSize; i++)
 		{
-			data->readDataBlocks[i] = convertedHeaderData[44 + i];
+			data->dataBlocks[i] = convertedHeaderData[44 + i];
 		}
 
 	}
 }
-
-
 
 unsigned int WavLoader::getTestInfo()
 {

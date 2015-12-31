@@ -1,5 +1,6 @@
 #include "Wav.h"
 #include "DataChunk.h"
+#include "GlobalCodes.h"
 
 Wav::Wav()
 {
@@ -71,21 +72,35 @@ unsigned int Wav::getDataSize()
 {
 	return data->dataSize;
 }
-short Wav::getDataBlock(int index)
+unsigned char Wav::getDataBlock(int index)
 {
 	return data->dataBlocks[index];
 }
 
-unsigned char Wav::getReadDataBlock(int index)
+unsigned char* Wav::getDataBlockArray()
 {
-	return data->readDataBlocks[index];
+	return data->dataBlocks;
 }
+
+
 void Wav::setDataSize(unsigned int newSize)
 {
 	data->dataSize = newSize;
 }
-void Wav::setDataBlock(short* newData)
+void Wav::setDataBlockArray(unsigned char* newData)
 {
 	delete [] data->dataBlocks;
 	data->dataBlocks = newData;
+}
+
+int Wav::getDataType()
+{
+	if (fmt->bitsPerSample <= 8)
+	{
+		return GlobalCodes::charCode;
+	}
+	else
+	{
+		return GlobalCodes::shortCode;
+	}
 }

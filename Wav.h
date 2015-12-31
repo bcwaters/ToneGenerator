@@ -32,8 +32,10 @@ public:
 	unsigned int getDataId();
 	unsigned int getDataSize();
 	void setDataSize(unsigned int newSize);
-	short getDataBlock(int index);
-	unsigned char getReadDataBlock(int index);
-	void setDataBlock(short* newData);
+	unsigned char getDataBlock(int index);
+	void setDataBlockArray(unsigned char* newData);
+	unsigned char* Wav::getDataBlockArray();
+	//OTHER STUFF
+	int getDataType();
 };
 #endif

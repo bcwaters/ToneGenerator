@@ -2,8 +2,18 @@
 
 void ToneGenerator::AddToneDataToWav(Wav* targetWav)
 {
-	targetWav->setDataBlock(generateToneData(targetWav->getByteRate()));
-	targetWav->setDataSize(encodingLength/2 + targetWav->getByteRate());
+	unsigned char* toneArray = generateToneData(targetWav->getByteRate(), targetWav->getDataType());
+	unsigned char* originalData = targetWav->getDataBlockArray();
+
+	for (int i = 0; i < targetWav->getDataSize(); i++)
+	{
+		if (toneArray[i] != 0)
+		{
+			originalData[i] = (toneArray[i] + originalData[i])/2;
+		}
+	}
+
+
 }
 
 //This function is used to keep track of how long the wav file is going ot be 
@@ -30,7 +40,7 @@ void ToneGenerator::clearToneGenerator()
 
 //This function converts each Tone in the tone list to bytes which can be read in a wav File
 //All tones are added together and then the amplitude is scaled back down
-short* ToneGenerator::generateToneData(unsigned int _byteRate){
+unsigned char* ToneGenerator::generateToneData(unsigned int _byteRate, int dataType){
 
 	for (auto it = toneList.begin(); it != toneList.end(); ++it)
 	{
@@ -38,8 +48,8 @@ short* ToneGenerator::generateToneData(unsigned int _byteRate){
 		updateEncodingLength(tone, _byteRate);
 	}
 
-	short* newArr = new short[encodingLength+_byteRate]();
-	short* waveCount = new short[encodingLength + _byteRate]();
+	unsigned char* newArr = new unsigned char[encodingLength+_byteRate]();
+	unsigned char* waveCount = new unsigned char[encodingLength + _byteRate]();
 	
 	int amplitude = 5000;
 	int bytesPerPeriod = 0;				//	byteRate/frequency finds how many bytes each period takes
@@ -89,6 +99,6 @@ short* ToneGenerator::generateToneData(unsigned int _byteRate){
 		newArr[i] = newArr[i] / waveCount[i];
 	}
 
-	delete [] waveCount;
+	//delete [] waveCount;
 	return newArr;
 }

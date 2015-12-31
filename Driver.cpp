@@ -19,12 +19,21 @@ int main(int argc, const char* argv[])
 	testWav = testLoad.loadWav("WilhelmScream.wav");
 	unsigned char * tempStor = reinterpret_cast<unsigned char*>(testLoad.getBits());
 	
-	for (int i = 0; i < 20; i++)
-	{
-		printf("%x ", tempStor[i]);
-	}
+	printf("Hello enter a frequency to create:\n");
+
+	std::cin >> pause;
 	
-	printf("\n%u", testLoad.getTestInfo());
+
+			makerTone.makeTone(pause, 0, 6);
+			makerTone.makeTone(pause -40, 0, 6);
+			makerTone.makeTone(pause+40, 0, 6);
+			makerTone.makeTone(pause*2, 0, 6);
+		
+	printf("\n byteRate: %i\n", testWav->getDataSize());
+
+	makerTone.AddToneDataToWav(testWav);
+	
+
 	testWriter.writeWav(testWav, 0);
 
 	/*printf("Hello enter a frequency to create:\n");
