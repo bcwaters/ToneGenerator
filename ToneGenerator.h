@@ -15,6 +15,7 @@ public:
 	void makeTone(int frequency, int startTime, short duration);
 	void AddToneDataToWav(Wav* targetWav);
 	void clearToneGenerator();
+	void addSquareWave(int tonePosition, int periodRepeatValue, int amplitude, int bytesPerPeriod, unsigned char* newArr, unsigned char* waveCount);
 
 private:
 	unsigned char* generateToneData(unsigned int _byteRate, int dataType);

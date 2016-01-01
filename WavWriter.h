@@ -12,7 +12,7 @@ public:
 	void writeInt(unsigned int input);
 	void writeShort(short input);
 	void writeUnsignedChar(unsigned char  input);
-	void writeWav(Wav * waveToWrite, int tempCode);
+	void writeWav(Wav * waveToWrite, char * fileName);
 };
 
 #endif
