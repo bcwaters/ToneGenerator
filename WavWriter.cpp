@@ -6,7 +6,10 @@
 void WavWriter::writeWav(Wav * wavToWrite, char * fileName)
 {
 	
-	testFile.open(fileName, std::ios::binary);
+	
+	std::string fileToWrite = std::string(fileName);
+
+	testFile.open(fileToWrite, std::ios::binary);
 	writeInt(wavToWrite->getRiffId());
 	writeInt(wavToWrite->getChunkSize());
 	writeInt(wavToWrite->getRiffFormat());
